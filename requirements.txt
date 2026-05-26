@@ -1,0 +1,6 @@
+psycopg2-binary==2.9.9
+neo4j==5.18.0
+redis==5.0.3
+jupyter==1.0.0
+notebook==7.1.2
+ipykernel==6.29.3
