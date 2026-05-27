@@ -68,6 +68,14 @@ UniMatch/
 ---
 
 ## 🚀 Cómo levantar el proyecto con Docker
+🧰 Requisitos previos
+
+Antes de iniciar asegurate de tener instalado:
+
+Docker Desktop (en ejecución)
+Git
+Python 3.10+
+(opcional) Jupyter Notebook
 
 ### 1. Clonar el repositorio
 
