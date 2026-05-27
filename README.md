@@ -72,7 +72,7 @@ UniMatch/
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/UniMatch.git
+git clone https://github.com/Melibarrera13/uniMatch.git
 cd UniMatch
 ```
 
