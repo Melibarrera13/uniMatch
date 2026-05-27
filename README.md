@@ -156,7 +156,14 @@ O desde el directorio raíz:
 ```bash
 jupyter notebook
 ```
-
+Opción 2 — Usarlo con Python (si pip falla)
+```bash
+python -m notebook
+```
+o:
+```bash
+python -m jupyter notebook
+```
 Luego navegar a `db_models/notebooks/demo_unimatch.ipynb`
 
 ---
