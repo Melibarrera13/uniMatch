@@ -43,9 +43,12 @@ UniMatch/
 │   │   └── redis_examples.py   # Ejemplos de uso del caché
 │   │
 │   ├── 04_dao/
+|   |   ├── buscar_tema_dao.py
+│   │   ├── cache_busquedas_dao.py
 │   │   ├── postgres_connection.py
 │   │   ├── neo4j_connection.py
 │   │   ├── redis_connection.py
+│   │   ├── test_neo4j_connection.py
 │   │   ├── usuario_dao.py
 │   │   ├── interes_dao.py
 │   │   ├── match_dao.py
