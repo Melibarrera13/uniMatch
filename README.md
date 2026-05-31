@@ -1,12 +1,23 @@
-# UniMatch
+ UniMatch — Plataforma de Matching Académico
 
-UniMatch es una plataforma académica de matching entre usuarios con intereses en común. El objetivo principal del proyecto es mostrar la integración de tres motores de bases de datos mediante una capa DAO:
+UniMatch es una plataforma académica donde los usuarios se registran, crean un perfil, agregan intereses académicos, y el sistema recomienda otros usuarios con intereses similares.
 
-| Tecnología | Uso en el proyecto |
-| --- | --- |
-| PostgreSQL | Datos relacionales principales: usuarios, intereses, matches y mensajes |
-| Neo4j | Relaciones tipo grafo entre usuarios e intereses |
-| Redis | Caché de búsquedas, matches recientes y datos temporales |
+**Ejemplo:**
+- Usuario A agrega interés "UML"
+- Usuario B agrega interés "UML"
+- → el sistema los recomienda como posible match académico
+
+---
+
+## Objetivo Académico
+
+Demostrar la integración de múltiples motores de bases de datos mediante una capa DAO:
+
+| Base de Datos | Rol en el proyecto |
+|---------------|-------------------|
+| **PostgreSQL** | Almacenamiento relacional principal |
+| **Neo4j** | Grafo de relaciones entre usuarios e intereses |
+| **Redis** | Caché de matches recientes y usuarios activos |
 
 ## Requisitos
 
