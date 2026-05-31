@@ -1,4 +1,6 @@
- UniMatch — Plataforma de Matching Académico
+# 🎓 UniMatch — Plataforma de Matching Académico
+
+> Proyecto universitario para la materia **Bases de Datos II**
 
 UniMatch es una plataforma académica donde los usuarios se registran, crean un perfil, agregan intereses académicos, y el sistema recomienda otros usuarios con intereses similares.
 
@@ -9,7 +11,7 @@ UniMatch es una plataforma académica donde los usuarios se registran, crean un 
 
 ---
 
-## Objetivo Académico
+## 🎯 Objetivo Académico
 
 Demostrar la integración de múltiples motores de bases de datos mediante una capa DAO:
 
@@ -35,8 +37,8 @@ Antes de ejecutar el proyecto se necesita:
 uniMatch/
 ├── docker-compose.yml
 ├── requirements.txt
-├── db models/
-│   ├── 01-postgres/
+├── db_models/
+│   ├── 01_postgres/
 │   │   ├── schema.sql
 │   │   └── inserts.sql
 │   ├── 02_neo4j/
@@ -45,12 +47,10 @@ uniMatch/
 │   ├── 04_dao/
 │   └── 05_notebooks/
 │       └── demo_unimatch.ipynb
-├── db_models/
-│   └── 04_dao/
 └── diagrams/
 ```
 
-> Nota: el repositorio tiene una carpeta llamada `db models` con espacio. Por eso los comandos usan comillas.
+> Nota: todos los archivos de bases de datos estan dentro de `db_models`.
 
 ## Instalación y ejecución
 
@@ -85,15 +85,15 @@ docker compose ps
 En PowerShell:
 
 ```powershell
-Get-Content "db models\01-postgres\schema.sql" | docker exec -i unimatch_postgres psql -U admin -d unimatch_db
-Get-Content "db models\01-postgres\inserts.sql" | docker exec -i unimatch_postgres psql -U admin -d unimatch_db
+Get-Content "db_models\01_postgres\schema.sql" | docker exec -i unimatch_postgres psql -U admin -d unimatch_db
+Get-Content "db_models\01_postgres\inserts.sql" | docker exec -i unimatch_postgres psql -U admin -d unimatch_db
 ```
 
-En Git Bash:
+En Git Bash, Linux o macOS:
 
 ```bash
-docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db models/01-postgres/schema.sql"
-docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db models/01-postgres/inserts.sql"
+docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db_models/01_postgres/schema.sql"
+docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db_models/01_postgres/inserts.sql"
 ```
 
 ### 4. Cargar datos en Neo4j
@@ -101,13 +101,13 @@ docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db models/01-po
 En PowerShell:
 
 ```powershell
-Get-Content "db models\02_neo4j\graph.cypher" | docker exec -i unimatch_neo4j cypher-shell -u neo4j -p neo4j123
+Get-Content "db_models\02_neo4j\graph.cypher" | docker exec -i unimatch_neo4j cypher-shell -u neo4j -p neo4j123
 ```
 
-En Git Bash:
+En Git Bash, Linux o macOS:
 
 ```bash
-docker exec -i unimatch_neo4j cypher-shell -u neo4j -p neo4j123 < "db models/02_neo4j/graph.cypher"
+docker exec -i unimatch_neo4j cypher-shell -u neo4j -p neo4j123 < "db_models/02_neo4j/graph.cypher"
 ```
 
 ### 5. Instalar dependencias de Python
@@ -124,7 +124,7 @@ Activarlo en PowerShell:
 .\.venv\Scripts\Activate.ps1
 ```
 
-Activarlo en Git Bash:
+Activarlo en Git Bash, Linux o macOS:
 
 ```bash
 source .venv/bin/activate
@@ -138,15 +138,19 @@ python -m pip install -r requirements.txt
 
 ### 6. Ejecutar el notebook
 
-```bash
-jupyter notebook "db models/05_notebooks/demo_unimatch.ipynb"
-```
-
-Tambien se puede abrir Jupyter desde la raiz del proyecto:
+Usar:
 
 ```bash
-jupyter notebook
+python -m notebook "db_models/05_notebooks/demo_unimatch.ipynb"
 ```
+
+Si aparece el error `No module named notebook`, instalar las dependencias:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Luego volver a ejecutar el comando anterior.
 
 ## Datos de conexión
 
