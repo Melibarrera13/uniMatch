@@ -1,230 +1,222 @@
-# 🎓 UniMatch — Plataforma de Matching Académico
+# UniMatch
 
-> Proyecto universitario para la materia **Bases de Datos II**
+Proyecto universitario para la materia **Bases de Datos II**.
 
-UniMatch es una plataforma académica donde los usuarios se registran, crean un perfil, agregan intereses académicos, y el sistema recomienda otros usuarios con intereses similares.
+UniMatch es una plataforma académica de matching entre usuarios con intereses en común. El objetivo principal del proyecto es mostrar la integración de tres motores de bases de datos mediante una capa DAO:
 
-**Ejemplo:**
-- Usuario A agrega interés "UML"
-- Usuario B agrega interés "UML"
-- → el sistema los recomienda como posible match académico
+| Tecnología | Uso en el proyecto |
+| --- | --- |
+| PostgreSQL | Datos relacionales principales: usuarios, intereses, matches y mensajes |
+| Neo4j | Relaciones tipo grafo entre usuarios e intereses |
+| Redis | Caché de búsquedas, matches recientes y datos temporales |
 
----
+## Requisitos
 
-## 🎯 Objetivo Académico
+Antes de ejecutar el proyecto se necesita:
 
-Demostrar la integración de múltiples motores de bases de datos mediante una capa DAO:
+- Git
+- Docker Desktop en ejecución
+- Python 3.10 o superior
+- pip
+- Opcional: DBeaver y Jupyter Notebook
 
-| Base de Datos | Rol en el proyecto |
-|---------------|-------------------|
-| **PostgreSQL** | Almacenamiento relacional principal |
-| **Neo4j** | Grafo de relaciones entre usuarios e intereses |
-| **Redis** | Caché de matches recientes y usuarios activos |
+## Estructura principal
 
----
-
-## 🗂 Estructura del repositorio
-
-```
-UniMatch/
-├── README.md
-├── requirements.txt
+```text
+uniMatch/
 ├── docker-compose.yml
-│
-├── db_models/
-│   ├── 01_postgres/
-│   │   ├── schema.sql          # Tablas y relaciones
-│   │   └── inserts.sql         # Datos de ejemplo
-│   │
+├── requirements.txt
+├── db models/
+│   ├── 01-postgres/
+│   │   ├── schema.sql
+│   │   └── inserts.sql
 │   ├── 02_neo4j/
-│   │   └── graph.cypher        # Nodos y relaciones en grafo
-│   │
+│   │   └── graph.cypher
 │   ├── 03_redis/
-│   │   └── redis_examples.py   # Ejemplos de uso del caché
-│   │
 │   ├── 04_dao/
-|   |   ├── buscar_tema_dao.py
-│   │   ├── cache_busquedas_dao.py
-│   │   ├── postgres_connection.py
-│   │   ├── neo4j_connection.py
-│   │   ├── redis_connection.py
-│   │   ├── test_neo4j_connection.py
-│   │   ├── usuario_dao.py
-│   │   ├── interes_dao.py
-│   │   ├── match_dao.py
-│   │   ├── mensaje_dao.py
-│   │   ├── match_graph_dao.py
-│   │   └── cache_dao.py
-│   │
 │   └── 05_notebooks/
-│       └── demo_unimatch.ipynb  # Demo completa del proyecto
-│
+│       └── demo_unimatch.ipynb
+├── db_models/
+│   └── 04_dao/
 └── diagrams/
-    ├── MER_postgres.md          # DER en Mermaid
-    ├── grafo_neo4j.md           # Grafo conceptual
-    └── arquitectura_general.md  # Arquitectura del sistema
 ```
 
----
+> Nota: el repositorio tiene una carpeta llamada `db models` con espacio. Por eso los comandos usan comillas.
 
-## 🚀 Cómo levantar el proyecto con Docker
-🧰 Requisitos previos
-
-Antes de iniciar asegurate de tener instalado:
-
-Docker Desktop (en ejecución)
-Git
-Python 3.10+
-(opcional) Jupyter Notebook
+## Instalación y ejecución
 
 ### 1. Clonar el repositorio
 
 ```bash
 git clone https://github.com/Melibarrera13/uniMatch.git
-cd UniMatch
+cd uniMatch
 ```
 
-### 2. Levantar los contenedores
+### 2. Levantar las bases de datos con Docker
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 Esto levanta:
-- **PostgreSQL** en el puerto `5432`
-- **Neo4j** en los puertos `7474` (browser) y `7687` (bolt)
-- **Redis** en el puerto `6379`
 
-### 3. Verificar que todo esté corriendo
+- PostgreSQL: `localhost:5432`
+- Neo4j Browser: `http://localhost:7474`
+- Neo4j Bolt: `localhost:7687`
+- Redis: `localhost:6379`
 
-```bash
-docker-compose ps
-```
-
-### 4. Cargar el schema en PostgreSQL
+Para verificar:
 
 ```bash
-docker exec -i unimatch_postgres psql -U admin -d unimatch_db < db_models/01_postgres/schema.sql
-docker exec -i unimatch_postgres psql -U admin -d unimatch_db < db_models/01_postgres/inserts.sql
+docker compose ps
 ```
 
-### 5. Detener los contenedores
+### 3. Cargar datos en PostgreSQL
+
+En PowerShell:
+
+```powershell
+Get-Content "db models\01-postgres\schema.sql" | docker exec -i unimatch_postgres psql -U admin -d unimatch_db
+Get-Content "db models\01-postgres\inserts.sql" | docker exec -i unimatch_postgres psql -U admin -d unimatch_db
+```
+
+En Git Bash, Linux o macOS:
 
 ```bash
-docker-compose down
+docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db models/01-postgres/schema.sql"
+docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db models/01-postgres/inserts.sql"
 ```
 
----
+### 4. Cargar datos en Neo4j
 
-## 🔌 Conectarse desde DBeaver
+En PowerShell:
+
+```powershell
+Get-Content "db models\02_neo4j\graph.cypher" | docker exec -i unimatch_neo4j cypher-shell -u neo4j -p neo4j123
+```
+
+En Git Bash, Linux o macOS:
+
+```bash
+docker exec -i unimatch_neo4j cypher-shell -u neo4j -p neo4j123 < "db models/02_neo4j/graph.cypher"
+```
+
+### 5. Instalar dependencias de Python
+
+Se recomienda crear un entorno virtual:
+
+```bash
+python -m venv .venv
+```
+
+Activarlo en PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Activarlo en Git Bash, Linux o macOS:
+
+```bash
+source .venv/bin/activate
+```
+
+Instalar dependencias:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 6. Ejecutar el notebook
+
+```bash
+jupyter notebook "db models/05_notebooks/demo_unimatch.ipynb"
+```
+
+Tambien se puede abrir Jupyter desde la raiz del proyecto:
+
+```bash
+jupyter notebook
+```
+
+## Datos de conexión
 
 ### PostgreSQL
 
 | Campo | Valor |
-|-------|-------|
+| --- | --- |
 | Host | `localhost` |
 | Puerto | `5432` |
 | Base de datos | `unimatch_db` |
 | Usuario | `admin` |
 | Contraseña | `admin123` |
 
-### Neo4j Browser
+### Neo4j
 
-Abrir en el navegador: http://localhost:7474
+| Campo | Valor |
+| --- | --- |
+| Browser | `http://localhost:7474` |
+| Bolt URI | `bolt://localhost:7687` |
+| Usuario | `neo4j` |
+| Contraseña | `neo4j123` |
 
-- Usuario: `neo4j`
-- Contraseña: `neo4j123`
+### Redis
 
----
+| Campo | Valor |
+| --- | --- |
+| Host | `localhost` |
+| Puerto | `6379` |
 
-## 📓 Cómo ejecutar el Jupyter Notebook
+## Probar conexiones desde Python
 
-### 1. Instalar dependencias
-
-```bash
-pip install -r requirements.txt
-```
-
-### 2. Lanzar Jupyter
-
-```bash
-jupyter notebook db_models/05_notebooks/demo_unimatch.ipynb
-```
-
-O desde el directorio raíz:
+Desde la raíz del proyecto:
 
 ```bash
-jupyter notebook
+python "db_models/04_dao/postgres_connection.py"
+python "db_models/04_dao/neo4j_connection.py"
+python "db_models/04_dao/redis_connection.py"
 ```
-Opción 2 — Usarlo con Python (si pip falla)
-```bash
-python -m notebook
-```
-o:
-```bash
-python -m jupyter notebook
-```
-Luego navegar a `db_models/notebooks/demo_unimatch.ipynb`
 
----
-
-## 🧪 Cómo probar la capa DAO
+## Apagar el proyecto
 
 ```bash
-# Desde el directorio raíz del proyecto
-cd db_models/04_dao
-
-# Probar UsuarioDAO
-python usuario_dao.py
-
-# Probar MatchDAO
-python match_dao.py
-
-# Probar el grafo Neo4j
-python match_graph_dao.py
-
-# Probar caché Redis
-python cache_dao.py
+docker compose down
 ```
 
----
+Si también se quieren borrar los volúmenes y datos cargados:
 
-## 🔍 Ejemplos de consultas
+```bash
+docker compose down -v
+```
 
-### PostgreSQL — Usuarios con interés en común
+## Consultas de ejemplo
+
+PostgreSQL:
 
 ```sql
 SELECT u1.nombre, u2.nombre, i.nombre_interes
 FROM usuario_interes ui1
-JOIN usuario_interes ui2 ON ui1.id_interes = ui2.id_interes AND ui1.id_usuario < ui2.id_usuario
+JOIN usuario_interes ui2
+  ON ui1.id_interes = ui2.id_interes
+ AND ui1.id_usuario < ui2.id_usuario
 JOIN usuario u1 ON ui1.id_usuario = u1.id_usuario
 JOIN usuario u2 ON ui2.id_usuario = u2.id_usuario
 JOIN interes i ON ui1.id_interes = i.id_interes;
 ```
 
-### Neo4j — Usuarios con intereses compartidos
+Neo4j:
 
 ```cypher
 MATCH (u1:Usuario)-[:INTERES_EN]->(i:Interes)<-[:INTERES_EN]-(u2:Usuario)
 WHERE u1.nombre <> u2.nombre
-RETURN u1.nombre, u2.nombre, i.nombre AS interes_comun
+RETURN u1.nombre, u2.nombre, i.nombre AS interes_comun;
 ```
 
-### Redis — Ver matches cacheados
+Redis:
 
 ```python
 import redis
-r = redis.Redis(host='localhost', port=6379, decode_responses=True)
-print(r.lrange("matches_recientes", 0, -1))
+
+r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+print(r.keys("*"))
 ```
-
----
-
-## 📦 Tecnologías
-
-- Python 3.10+
-- PostgreSQL 15
-- Neo4j 5
-- Redis 7
-- Docker & Docker Compose
-- Jupyter Notebook
