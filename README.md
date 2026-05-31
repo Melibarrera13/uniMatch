@@ -1,6 +1,4 @@
-# 🎓 UniMatch — Plataforma de Matching Académico
-
-> Proyecto universitario para la materia **Bases de Datos II**
+# UniMatch — Plataforma de Matching Académico
 
 UniMatch es una plataforma académica donde los usuarios se registran, crean un perfil, agregan intereses académicos, y el sistema recomienda otros usuarios con intereses similares.
 
@@ -11,7 +9,7 @@ UniMatch es una plataforma académica donde los usuarios se registran, crean un 
 
 ---
 
-## 🎯 Objetivo Académico
+## Objetivo Académico
 
 Demostrar la integración de múltiples motores de bases de datos mediante una capa DAO:
 
@@ -50,7 +48,6 @@ uniMatch/
 └── diagrams/
 ```
 
-> Nota: todos los archivos de bases de datos estan dentro de `db_models`.
 
 ## Instalación y ejecución
 
