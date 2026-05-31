@@ -89,7 +89,7 @@ Get-Content "db models\01-postgres\schema.sql" | docker exec -i unimatch_postgre
 Get-Content "db models\01-postgres\inserts.sql" | docker exec -i unimatch_postgres psql -U admin -d unimatch_db
 ```
 
-En Git Bash, Linux o macOS:
+En Git Bash:
 
 ```bash
 docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db models/01-postgres/schema.sql"
@@ -104,7 +104,7 @@ En PowerShell:
 Get-Content "db models\02_neo4j\graph.cypher" | docker exec -i unimatch_neo4j cypher-shell -u neo4j -p neo4j123
 ```
 
-En Git Bash, Linux o macOS:
+En Git Bash:
 
 ```bash
 docker exec -i unimatch_neo4j cypher-shell -u neo4j -p neo4j123 < "db models/02_neo4j/graph.cypher"
@@ -124,7 +124,7 @@ Activarlo en PowerShell:
 .\.venv\Scripts\Activate.ps1
 ```
 
-Activarlo en Git Bash, Linux o macOS:
+Activarlo en Git Bash:
 
 ```bash
 source .venv/bin/activate
