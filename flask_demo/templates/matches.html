@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Matches Académicos</h1>
+<p class="db-badge neo4j">🔵 Neo4j</p>
+<p>Pares de usuarios que comparten al menos un interés en común, calculados mediante una consulta de grafo en Neo4j.</p>
+
+<div class="tech-note">
+    <strong>Cypher:</strong>
+    <code>
+        MATCH (u1:Usuario)-[:INTERES_EN]->(i:Interes)&lt;-[:INTERES_EN]-(u2:Usuario)
+        WHERE u1.nombre &lt; u2.nombre
+        RETURN u1.nombre, u2.nombre, collect(i.nombre)
+    </code>
+</div>
+
+<!-- Botón para refrescar -->
+<div style="margin: 1.5rem 0;">
+    <a href="{{ url_for('matches') }}" class="btn btn-primary">🔄 Generar Matches</a>
+</div>
+
+<!-- Resultados -->
+<h2>Matches encontrados ({{ matches|length }})</h2>
+
+{% if matches %}
+<table>
+    <thead>
+        <tr>
+            <th>Usuario 1</th>
+            <th></th>
+            <th>Usuario 2</th>
+            <th>Intereses compartidos</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in matches %}
+        <tr>
+            <td><strong>{{ m.usuario1 }}</strong></td>
+            <td class="match-arrow">↔</td>
+            <td><strong>{{ m.usuario2 }}</strong></td>
+            <td>
+                {% for interes in m.intereses %}
+                <span class="tag">{{ interes }}</span>
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+<p class="empty">
+    No se encontraron matches todavía.<br>
+    Asegurate de haber creado usuarios, intereses y sus relaciones en la sección <a href="{{ url_for('intereses') }}">Intereses</a>.
+</p>
+{% endif %}
+
+{% endblock %}

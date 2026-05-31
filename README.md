@@ -149,6 +149,33 @@ python -m pip install -r requirements.txt
 
 Luego volver a ejecutar el comando anterior.
 
+
+## Demo web con Flask
+
+El repositorio incluye una demo funcional en Flask dentro de `flask_demo/`. La demo permite navegar usuarios, intereses, búsquedas y matches usando PostgreSQL, Neo4j y Redis.
+
+Antes de ejecutarla, levantar los contenedores y cargar los datos:
+
+```bash
+docker compose up -d
+docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db_models/01_postgres/schema.sql"
+docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db_models/01_postgres/inserts.sql"
+docker exec -i unimatch_neo4j cypher-shell -u neo4j -p neo4j123 < "db_models/02_neo4j/graph.cypher"
+```
+
+Instalar dependencias y ejecutar Flask:
+
+```bash
+python -m pip install -r requirements.txt
+python flask_demo/app.py
+```
+
+Abrir en el navegador:
+
+```text
+http://localhost:5000
+```
+
 ## Datos de conexión
 
 ### PostgreSQL

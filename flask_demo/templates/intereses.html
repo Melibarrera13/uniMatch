@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Intereses</h1>
+<p class="db-badge neo4j">🔵 Neo4j</p>
+<p>Los intereses son nodos <code>(:Interes)</code> en el grafo de Neo4j.</p>
+
+<div class="two-col">
+
+    <!-- Columna izquierda: crear interés -->
+    <div class="form-card">
+        <h2>Crear interés</h2>
+        <form action="{{ url_for('crear_interes_route') }}" method="POST">
+            <div class="form-group">
+                <label for="nombre_interes">Nombre del interés</label>
+                <input type="text" id="nombre_interes" name="nombre_interes"
+                       placeholder="Ej: Python, UML, Redes" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Crear en Neo4j</button>
+        </form>
+
+        <div class="tech-note">
+            <strong>Cypher:</strong>
+            <code>MERGE (i:Interes {nombre:"Python"})</code>
+        </div>
+    </div>
+
+    <!-- Columna derecha: relacionar usuario con interés -->
+    <div class="form-card">
+        <h2>Relacionar usuario ↔ interés</h2>
+        <form action="{{ url_for('relacionar_route') }}" method="POST">
+
+            <div class="form-group">
+                <label for="email_usuario">Usuario</label>
+                <select id="email_usuario" name="email_usuario" required>
+                    <option value="">-- Seleccionar usuario --</option>
+                    {% for u in usuarios %}
+                    <option value="{{ u.email }}">{{ u.nombre }} ({{ u.email }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre_interes_rel">Interés</label>
+                <select id="nombre_interes_rel" name="nombre_interes_rel" required>
+                    <option value="">-- Seleccionar interés --</option>
+                    {% for i in intereses %}
+                    <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-secondary">Crear Relación</button>
+        </form>
+
+        <div class="tech-note">
+            <strong>Cypher:</strong>
+            <code>MATCH (u:Usuario),(i:Interes) MERGE (u)-[:INTERES_EN]->(i)</code>
+        </div>
+    </div>
+
+</div>
+
+<!-- Lista de intereses existentes -->
+<h2>Intereses en Neo4j ({{ intereses|length }})</h2>
+
+{% if intereses %}
+<div class="tag-list">
+    {% for i in intereses %}
+    <span class="tag">{{ i }}</span>
+    {% endfor %}
+</div>
+{% else %}
+<p class="empty">No hay intereses creados todavía.</p>
+{% endif %}
+
+{% endblock %}

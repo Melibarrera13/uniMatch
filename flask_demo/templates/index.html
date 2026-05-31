@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Bienvenido a UniMatch</h1>
+<p>Demo de integración de bases de datos para proyecto universitario.</p>
+
+<div class="card-grid">
+
+    <div class="card">
+        <div class="card-icon">🗄️</div>
+        <h2>PostgreSQL</h2>
+        <p>Almacena los datos relacionales de los <strong>usuarios</strong>: nombre, email e idioma.</p>
+        <p class="db-info">localhost:5432 · unimatch_db</p>
+        <a href="{{ url_for('usuarios') }}" class="btn">Ver Usuarios</a>
+    </div>
+
+    <div class="card">
+        <div class="card-icon">🔵</div>
+        <h2>Neo4j</h2>
+        <p>Modela el <strong>grafo de relaciones</strong> entre usuarios e intereses académicos.</p>
+        <p class="db-info">bolt://localhost:7687</p>
+        <a href="{{ url_for('intereses') }}" class="btn">Ver Intereses</a>
+    </div>
+
+    <div class="card">
+        <div class="card-icon">🔴</div>
+        <h2>Redis</h2>
+        <p>Guarda en <strong>caché</strong> el historial de búsquedas por tema realizadas.</p>
+        <p class="db-info">localhost:6379</p>
+        <a href="{{ url_for('buscar') }}" class="btn">Ver Búsquedas</a>
+    </div>
+
+</div>
+
+<div class="info-box">
+    <h3>¿Cómo usar la demo?</h3>
+    <ol>
+        <li>Ir a <strong>Usuarios</strong> → Crear algunos usuarios</li>
+        <li>Ir a <strong>Intereses</strong> → Crear intereses (ej: Python, UML, Redes)</li>
+        <li>En <strong>Intereses</strong> → Relacionar usuarios con intereses</li>
+        <li>Ir a <strong>Buscar</strong> → Buscar por tema (se guarda en Redis)</li>
+        <li>Ir a <strong>Matches</strong> → Ver qué usuarios comparten intereses</li>
+    </ol>
+</div>
+
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Buscar por Tema</h1>
+<p class="db-badge neo4j">🔵 Neo4j</p>
+<p class="db-badge redis">🔴 Redis</p>
+<p>Busca en Neo4j los usuarios interesados en un tema. Cada búsqueda se guarda en <strong>Redis</strong>.</p>
+
+<!-- Formulario de búsqueda -->
+<div class="form-card">
+    <h2>Buscar usuarios por tema</h2>
+    <form action="{{ url_for('buscar') }}" method="GET">
+        <div class="form-group form-inline">
+            <input type="text" name="tema" value="{{ tema }}"
+                   placeholder="Ej: Python, UML, Redes" style="flex:1">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+    </form>
+
+    <div class="tech-note">
+        <strong>Cypher:</strong>
+        <code>MATCH (u:Usuario)-[:INTERES_EN]->(i:Interes {nombre:$tema}) RETURN u</code>
+    </div>
+</div>
+
+<!-- Resultados de la búsqueda -->
+{% if tema %}
+<h2>Resultados para: "{{ tema }}" ({{ resultados|length }} usuario/s)</h2>
+
+{% if resultados %}
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Idioma</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in resultados %}
+        <tr>
+            <td>{{ u.nombre }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.idioma }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty">Ningún usuario tiene interés en "{{ tema }}".</p>
+{% endif %}
+{% endif %}
+
+<!-- Historial de búsquedas (Redis) -->
+<div class="cache-section">
+    <h2>🔴 Historial en Redis</h2>
+    <p>Las siguientes búsquedas están almacenadas en Redis con su contador de repeticiones:</p>
+
+    {% if busquedas_recientes %}
+    <table>
+        <thead>
+            <tr>
+                <th>Tema buscado</th>
+                <th>Clave Redis</th>
+                <th>Veces</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in busquedas_recientes %}
+            <tr>
+                <td>{{ b.tema }}</td>
+                <td><code>busqueda:{{ b.tema }}</code></td>
+                <td>{{ b.veces }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="{{ url_for('limpiar_cache_route') }}" method="POST" style="margin-top: 1rem;">
+        <button type="submit" class="btn btn-danger">Limpiar caché Redis</button>
+    </form>
+
+    {% else %}
+    <p class="empty">No hay búsquedas en caché todavía. Realizá una búsqueda para ver el historial.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

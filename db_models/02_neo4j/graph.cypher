@@ -7,11 +7,11 @@
 MATCH (n) DETACH DELETE n;
 
 // --- Crear nodos de Usuario ---
-CREATE (:Usuario {id: 1, nombre: 'Ana García',   idioma: 'español'});
-CREATE (:Usuario {id: 2, nombre: 'Bruno López',  idioma: 'español'});
-CREATE (:Usuario {id: 3, nombre: 'Clara Méndez', idioma: 'español'});
-CREATE (:Usuario {id: 4, nombre: 'David Torres', idioma: 'inglés'});
-CREATE (:Usuario {id: 5, nombre: 'Elena Ruiz',   idioma: 'español'});
+CREATE (:Usuario {id: 1, email: 'ana@unimatch.com', nombre: 'Ana García',   idioma: 'español'});
+CREATE (:Usuario {id: 2, email: 'bruno@unimatch.com', nombre: 'Bruno López',  idioma: 'español'});
+CREATE (:Usuario {id: 3, email: 'clara@unimatch.com', nombre: 'Clara Méndez', idioma: 'español'});
+CREATE (:Usuario {id: 4, email: 'david@unimatch.com', nombre: 'David Torres', idioma: 'inglés'});
+CREATE (:Usuario {id: 5, email: 'elena@unimatch.com', nombre: 'Elena Ruiz',   idioma: 'español'});
 
 // --- Crear nodos de Interes ---
 CREATE (:Interes {nombre: 'UML'});

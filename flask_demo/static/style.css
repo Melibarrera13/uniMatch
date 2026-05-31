@@ -1,0 +1,287 @@
+/* =============================================
+   UniMatch - Estilos base
+   Diseño simple y limpio para defensa universitaria
+   ============================================= */
+
+/* Variables globales */
+:root {
+    --azul:       #2563eb;
+    --azul-hover: #1d4ed8;
+    --verde:      #16a34a;
+    --rojo:       #dc2626;
+    --naranja:    #d97706;
+    --gris-claro: #f3f4f6;
+    --gris-borde: #d1d5db;
+    --texto:      #111827;
+    --texto-suave:#6b7280;
+    --blanco:     #ffffff;
+    --sombra:     0 1px 3px rgba(0,0,0,0.12);
+}
+
+/* Reset básico */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    color: var(--texto);
+    background: #f9fafb;
+    line-height: 1.6;
+}
+
+/* ── Header ── */
+header {
+    background: var(--azul);
+    color: var(--blanco);
+    padding: 1rem 2rem;
+}
+.header-inner { display: flex; align-items: baseline; gap: 1rem; }
+.logo { font-size: 1.4rem; font-weight: 700; }
+.subtitle { font-size: 0.85rem; opacity: 0.8; }
+
+/* ── Navegación ── */
+nav {
+    background: #1e40af;
+    padding: 0 2rem;
+    display: flex;
+    gap: 0.25rem;
+}
+nav a {
+    color: #bfdbfe;
+    text-decoration: none;
+    padding: 0.6rem 1rem;
+    display: inline-block;
+    font-size: 0.9rem;
+    border-bottom: 3px solid transparent;
+    transition: all 0.15s;
+}
+nav a:hover {
+    color: var(--blanco);
+    border-bottom-color: #60a5fa;
+}
+
+/* ── Main ── */
+main {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+h1 { font-size: 1.7rem; margin-bottom: 0.25rem; color: #1e3a8a; }
+h2 { font-size: 1.2rem; margin: 1.5rem 0 0.75rem; color: #1e40af; }
+p  { margin-bottom: 0.75rem; color: var(--texto); }
+
+/* ── Alertas flash ── */
+.alert {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+.alert-success { background: #d1fae5; border-left: 4px solid var(--verde); color: #065f46; }
+.alert-error   { background: #fee2e2; border-left: 4px solid var(--rojo);  color: #7f1d1d; }
+
+/* ── Badges de base de datos ── */
+.db-badge {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    margin-right: 0.4rem;
+    margin-bottom: 0.5rem;
+}
+.db-badge.postgres { background: #dbeafe; color: #1e40af; }
+.db-badge.neo4j    { background: #f0fdf4; color: #166534; }
+.db-badge.redis    { background: #fef2f2; color: #991b1b; }
+
+/* ── Tarjetas ── */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+}
+.card {
+    background: var(--blanco);
+    border: 1px solid var(--gris-borde);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--sombra);
+}
+.card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.card h2   { margin-top: 0; }
+.db-info   { font-size: 0.78rem; color: var(--texto-suave); font-family: monospace; margin-bottom: 1rem; }
+
+/* ── Info box ── */
+.info-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+}
+.info-box h3 { margin-bottom: 0.75rem; color: #1e40af; }
+.info-box ol { padding-left: 1.25rem; }
+.info-box li { margin-bottom: 0.3rem; }
+
+/* ── Formularios ── */
+.form-card {
+    background: var(--blanco);
+    border: 1px solid var(--gris-borde);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--sombra);
+}
+.form-card h2 { margin-top: 0; }
+.form-group   { margin-bottom: 1rem; }
+.form-group label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: #374151;
+}
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--gris-borde);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background: var(--blanco);
+    transition: border-color 0.15s;
+}
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--azul);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
+/* Formulario inline (campo + botón en fila) */
+.form-inline { display: flex; gap: 0.5rem; align-items: center; }
+
+/* ── Botones ── */
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+.btn-primary   { background: var(--azul);    color: var(--blanco); }
+.btn-primary:hover { background: var(--azul-hover); }
+.btn-secondary { background: #059669;        color: var(--blanco); }
+.btn-secondary:hover { background: #047857; }
+.btn-danger    { background: var(--rojo);    color: var(--blanco); }
+.btn-danger:hover    { background: #b91c1c; }
+
+/* Botón genérico (blanco con borde) */
+.btn:not(.btn-primary):not(.btn-secondary):not(.btn-danger) {
+    background: var(--blanco);
+    border: 1px solid var(--azul);
+    color: var(--azul);
+}
+
+/* ── Tablas ── */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--blanco);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--sombra);
+    margin-bottom: 1.5rem;
+}
+thead { background: #1e40af; color: var(--blanco); }
+th { padding: 0.65rem 1rem; text-align: left; font-size: 0.88rem; }
+td { padding: 0.6rem 1rem; border-top: 1px solid var(--gris-borde); font-size: 0.9rem; }
+tr:hover td { background: #f0f4ff; }
+.match-arrow { text-align: center; font-size: 1.2rem; color: var(--azul); }
+
+/* ── Tags ── */
+.tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+.tag {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 0.25rem 0.7rem;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+/* ── Notas técnicas (para la defensa) ── */
+.tech-note {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid var(--azul);
+    border-radius: 4px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.82rem;
+    margin-top: 1rem;
+    color: #475569;
+}
+.tech-note code {
+    display: block;
+    font-family: 'Courier New', monospace;
+    color: #1e40af;
+    margin-top: 0.25rem;
+    word-break: break-all;
+}
+
+/* ── Sección caché Redis ── */
+.cache-section {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 2rem;
+}
+
+/* ── Dos columnas ── */
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+@media (max-width: 640px) {
+    .two-col { grid-template-columns: 1fr; }
+    nav { flex-wrap: wrap; }
+}
+
+/* ── Mensajes vacíos ── */
+.empty {
+    color: var(--texto-suave);
+    font-style: italic;
+    padding: 1rem;
+    background: var(--gris-claro);
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+}
+
+/* ── Footer ── */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--texto-suave);
+    border-top: 1px solid var(--gris-borde);
+    margin-top: 3rem;
+}
+
+/* ── Code inline ── */
+code {
+    font-family: 'Courier New', monospace;
+    background: #f1f5f9;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.85em;
+    color: #0f172a;
+}
