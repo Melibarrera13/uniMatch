@@ -1,7 +1,5 @@
 # UniMatch
 
-Proyecto universitario para la materia **Bases de Datos II**.
-
 UniMatch es una plataforma académica de matching entre usuarios con intereses en común. El objetivo principal del proyecto es mostrar la integración de tres motores de bases de datos mediante una capa DAO:
 
 | Tecnología | Uso en el proyecto |
