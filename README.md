@@ -124,7 +124,7 @@ Activarlo en PowerShell:
 Activarlo en Git Bash, Linux o macOS:
 
 ```bash
-source .venv/bin/activate
+source .venv/Scripts/activate
 ```
 
 Instalar dependencias:
