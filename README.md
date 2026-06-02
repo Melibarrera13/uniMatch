@@ -1,55 +1,62 @@
-# UniMatch — Plataforma de Matching Académico
+﻿# UniMatch - Plataforma de Matching Academico
 
-UniMatch es una plataforma académica donde los usuarios se registran, crean un perfil, agregan intereses académicos, y el sistema recomienda otros usuarios con intereses similares.
+Proyecto universitario para la materia **Bases de Datos II**.
+
+UniMatch es una plataforma academica donde los usuarios se registran, crean un perfil, agregan intereses academicos y el sistema recomienda otros usuarios con intereses similares.
 
 **Ejemplo:**
-- Usuario A agrega interés "UML"
-- Usuario B agrega interés "UML"
-- → el sistema los recomienda como posible match académico
 
----
+- Usuario A agrega interes "UML".
+- Usuario B agrega interes "UML".
+- El sistema los recomienda como posible match academico.
 
-## Objetivo Académico
+## Objetivo academico
 
-Demostrar la integración de múltiples motores de bases de datos mediante una capa DAO:
+Demostrar la integracion de multiples motores de bases de datos mediante una capa DAO:
 
-| Base de Datos | Rol en el proyecto |
-|---------------|-------------------|
-| **PostgreSQL** | Almacenamiento relacional principal |
-| **Neo4j** | Grafo de relaciones entre usuarios e intereses |
-| **Redis** | Caché de matches recientes y usuarios activos |
+| Base de datos | Rol en el proyecto |
+| --- | --- |
+| PostgreSQL | Almacenamiento relacional principal |
+| Neo4j | Grafo de relaciones entre usuarios e intereses |
+| Redis | Cache de matches recientes, usuarios activos y busquedas |
 
 ## Requisitos
 
-Antes de ejecutar el proyecto se necesita:
-
 - Git
-- Docker Desktop en ejecución
+- Docker Desktop en ejecucion
 - Python 3.10 o superior
 - pip
-- Opcional: DBeaver y Jupyter Notebook
+- Opcional: DBeaver
 
 ## Estructura principal
 
 ```text
 uniMatch/
-├── docker-compose.yml
-├── requirements.txt
-├── db_models/
-│   ├── 01_postgres/
-│   │   ├── schema.sql
-│   │   └── inserts.sql
-│   ├── 02_neo4j/
-│   │   └── graph.cypher
-│   ├── 03_redis/
-│   ├── 04_dao/
-│   └── 05_notebooks/
-│       └── demo_unimatch.ipynb
-└── diagrams/
+|-- docker-compose.yml
+|-- requirements.txt
+|-- README.md
+|-- db_models/
+|   |-- 01_postgres/
+|   |   |-- schema.sql
+|   |   `-- inserts.sql
+|   |-- 02_neo4j/
+|   |   `-- graph.cypher
+|   |-- 03_redis/
+|   |-- 04_dao/
+|   `-- 05_notebooks/
+|       `-- demo_unimatch.ipynb
+|-- flask_demo/
+|   |-- app.py
+|   |-- dao/
+|   |-- connections/
+|   |-- templates/
+|   `-- static/
+`-- diagrams/
 ```
 
+> Nota: la carpeta correcta es `db_models`. No usar `db models` con espacio.
 
-## Instalación y ejecución
+## Instalacion limpia
 
 ### 1. Clonar el repositorio
 
@@ -58,26 +65,58 @@ git clone https://github.com/Melibarrera13/uniMatch.git
 cd uniMatch
 ```
 
-### 2. Levantar las bases de datos con Docker
+### 2. Crear y activar entorno virtual
+
+Crear entorno:
+
+```bash
+python -m venv .venv
+```
+
+Activar en PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Activar en Git Bash en Windows:
+
+```bash
+source .venv/Scripts/activate
+```
+
+Activar en Linux o macOS:
+
+```bash
+source .venv/bin/activate
+```
+
+Instalar dependencias:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 3. Levantar bases de datos
 
 ```bash
 docker compose up -d
 ```
 
-Esto levanta:
+Verificar contenedores:
+
+```bash
+docker compose ps
+```
+
+Servicios:
 
 - PostgreSQL: `localhost:5432`
 - Neo4j Browser: `http://localhost:7474`
 - Neo4j Bolt: `localhost:7687`
 - Redis: `localhost:6379`
 
-Para verificar:
-
-```bash
-docker compose ps
-```
-
-### 3. Cargar datos en PostgreSQL
+### 4. Cargar datos en PostgreSQL
 
 En PowerShell:
 
@@ -93,7 +132,7 @@ docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db_models/01_po
 docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db_models/01_postgres/inserts.sql"
 ```
 
-### 4. Cargar datos en Neo4j
+### 5. Cargar datos en Neo4j
 
 En PowerShell:
 
@@ -107,76 +146,41 @@ En Git Bash, Linux o macOS:
 docker exec -i unimatch_neo4j cypher-shell -u neo4j -p neo4j123 < "db_models/02_neo4j/graph.cypher"
 ```
 
-### 5. Instalar dependencias de Python
+## Ejecutar la demo web Flask
 
-Se recomienda crear un entorno virtual:
-
-```bash
-python -m venv .venv
-```
-
-Activarlo en PowerShell:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-Activarlo en Git Bash, Linux o macOS:
+Desde la raiz del repositorio, con el entorno virtual activado:
 
 ```bash
-source .venv/Scripts/activate
-```
-
-Instalar dependencias:
-
-```bash
-python -m pip install -r requirements.txt
-```
-
-### 6. Ejecutar el notebook
-
-Usar:
-
-```bash
-python -m notebook "db_models/05_notebooks/demo_unimatch.ipynb"
-```
-
-Si aparece el error `No module named notebook`, instalar las dependencias:
-
-```bash
-python -m pip install -r requirements.txt
-```
-
-Luego volver a ejecutar el comando anterior.
-
-
-## Demo web con Flask
-
-El repositorio incluye una demo funcional en Flask dentro de `flask_demo/`. La demo permite navegar usuarios, intereses, búsquedas y matches usando PostgreSQL, Neo4j y Redis.
-
-Antes de ejecutarla, levantar los contenedores y cargar los datos:
-
-```bash
-docker compose up -d
-docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db_models/01_postgres/schema.sql"
-docker exec -i unimatch_postgres psql -U admin -d unimatch_db < "db_models/01_postgres/inserts.sql"
-docker exec -i unimatch_neo4j cypher-shell -u neo4j -p neo4j123 < "db_models/02_neo4j/graph.cypher"
-```
-
-Instalar dependencias y ejecutar Flask:
-
-```bash
-python -m pip install -r requirements.txt
 python flask_demo/app.py
 ```
 
-Abrir en el navegador:
+Abrir:
 
 ```text
 http://localhost:5000
 ```
 
-## Datos de conexión
+## Ejecutar el notebook Jupyter
+
+Desde la raiz del repositorio, con el entorno virtual activado:
+
+```bash
+python -m notebook "db_models/05_notebooks/demo_unimatch.ipynb"
+```
+
+El notebook configura automaticamente el path hacia `db_models/04_dao`, por lo que no hace falta modificar rutas manualmente.
+
+## Probar conexiones desde Python
+
+Desde la raiz del proyecto:
+
+```bash
+python "db_models/04_dao/postgres_connection.py"
+python "db_models/04_dao/neo4j_connection.py"
+python "db_models/04_dao/redis_connection.py"
+```
+
+## Datos de conexion
 
 ### PostgreSQL
 
@@ -186,7 +190,7 @@ http://localhost:5000
 | Puerto | `5432` |
 | Base de datos | `unimatch_db` |
 | Usuario | `admin` |
-| Contraseña | `admin123` |
+| Contrasena | `admin123` |
 
 ### Neo4j
 
@@ -195,7 +199,7 @@ http://localhost:5000
 | Browser | `http://localhost:7474` |
 | Bolt URI | `bolt://localhost:7687` |
 | Usuario | `neo4j` |
-| Contraseña | `neo4j123` |
+| Contrasena | `neo4j123` |
 
 ### Redis
 
@@ -204,23 +208,13 @@ http://localhost:5000
 | Host | `localhost` |
 | Puerto | `6379` |
 
-## Probar conexiones desde Python
-
-Desde la raíz del proyecto:
-
-```bash
-python "db_models/04_dao/postgres_connection.py"
-python "db_models/04_dao/neo4j_connection.py"
-python "db_models/04_dao/redis_connection.py"
-```
-
 ## Apagar el proyecto
 
 ```bash
 docker compose down
 ```
 
-Si también se quieren borrar los volúmenes y datos cargados:
+Si tambien se quieren borrar los volumenes y datos cargados:
 
 ```bash
 docker compose down -v
